@@ -4,15 +4,18 @@ using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using Janna.Extensions;
 using Janna.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace Janna.Weather;
 
 public class WeatherCommandModule : ApplicationCommandModule
 {
+    private readonly ILogger _logger;
     private readonly IWeatherService _weatherService;
 
-    public WeatherCommandModule(IWeatherService weatherService)
+    public WeatherCommandModule(ILogger logger, IWeatherService weatherService)
     {
+        _logger = logger;
         _weatherService = weatherService;
     }
 
@@ -22,6 +25,8 @@ public class WeatherCommandModule : ApplicationCommandModule
         [Option("units", "The units you want the weather to show")] Units units = Units.Metric)
     {
         await ctx.DeferAsync();
+
+        _logger.LogInformation("User '{user}' used the 'weather' command", ctx.User.Username);
 
         var weather = await _weatherService.GetCurrentWeatherAsync(location, units);
         var builder = new DiscordWebhookBuilder();
@@ -62,6 +67,8 @@ public class WeatherCommandModule : ApplicationCommandModule
         [Option("units", "The units you want the weather to show")] Units units = Units.Metric)
     {
         await ctx.DeferAsync();
+
+        _logger.LogInformation("User '{user}' used the 'forecast' command", ctx.User.Username);
 
         var forecast = await _weatherService.GetWeatherForecastAsync(location, units);
         var builder = new DiscordWebhookBuilder();

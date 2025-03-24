@@ -1,15 +1,18 @@
 using System.Text;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using Microsoft.Extensions.Logging;
 
 namespace Janna.Geocoding;
 
 public class GeocodingCommandModule : ApplicationCommandModule
 {
+    private readonly ILogger _logger;
     private readonly IGeocodingService _geocodingService;
 
-    public GeocodingCommandModule(IGeocodingService geocodingService)
+    public GeocodingCommandModule(ILogger logger, IGeocodingService geocodingService)
     {
+        _logger = logger;
         _geocodingService = geocodingService;
     }
 
@@ -19,6 +22,8 @@ public class GeocodingCommandModule : ApplicationCommandModule
         [Option("limit", "Number of locations (Min: 0, Max: 5)")] long limit = 0)
     {
         await ctx.DeferAsync();
+
+        _logger.LogInformation("User '{user}' used the 'location' command", ctx.User.Username);
 
         var locations = await _geocodingService.GetLocationsAsync(query, (int)limit);
         var builder = new DiscordWebhookBuilder();
