@@ -1,7 +1,7 @@
-namespace Janna;
+namespace Janna.Weather;
 
 public interface IWeatherService
 {
-    Task<Weather> GetCurrentWeatherAsync(float latitude, float longitude, Units units);
-    Task<List<Weather>> GetWeatherForecastAsync(float latitude, float longitude, Units units);
+    Task<CurrentWeather?> GetCurrentWeatherAsync(string query, Units units);
+    Task<WeatherForecast?> GetWeatherForecastAsync(string query, Units units);
 }

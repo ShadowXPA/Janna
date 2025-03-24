@@ -1,4 +1,4 @@
-namespace Janna;
+namespace Janna.Weather;
 
 public enum Units
 {

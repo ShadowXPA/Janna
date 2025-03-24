@@ -1,6 +1,4 @@
-﻿using DSharpPlus;
-using DSharpPlus.SlashCommands;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Janna.Utils;
 
 namespace Janna;
 
@@ -8,31 +6,11 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        string discordBotToken = Environment.GetEnvironmentVariable("DISCORD_BOT_TOKEN")
-            ?? throw new Exception("Environment variable 'DISCORD_BOT_TOKEN' is not set!");
+        string discordBotToken = Constants.GetEnvironmentVariableOrThrow(Constants.DISCORD_BOT_TOKEN);
 
-        IServiceCollection serviceCollection = new ServiceCollection();
+        var bot = new DiscordBot(discordBotToken);
 
-        // serviceCollection.AddSingleton<HttpClient>();
-        // serviceCollection.AddSingleton<WeatherService>();
-
-        DiscordClient discord = new(new DiscordConfiguration()
-        {
-            Token = discordBotToken,
-            TokenType = TokenType.Bot,
-            Intents = DiscordIntents.AllUnprivileged
-        });
-
-        IServiceProvider services = serviceCollection.BuildServiceProvider();
-
-        SlashCommandsExtension commands = discord.UseSlashCommands(new SlashCommandsConfiguration()
-        {
-            Services = services
-        });
-
-        // commands.RegisterCommands<WeatherCommandModule>();
-
-        await discord.ConnectAsync();
+        await bot.ConnectAsync();
         await Task.Delay(-1);
     }
 }

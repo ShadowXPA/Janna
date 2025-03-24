@@ -1,11 +1,7 @@
-using Janna.Geocoding;
-
 namespace Janna.Weather;
 
-public class CurrentWeather
+public class Forecast
 {
-    public required Location Location { get; set; }
-    public Units Units { get; set; }
     public required string Condition { get; set; }
     public required string Description { get; set; }
     public required string Icon { get; set; }
@@ -18,7 +14,6 @@ public class CurrentWeather
     public float WindSpeed { get; set; }
     public int WindDirection { get; set; }
     public int Visibility { get; set; }
-    public DateTimeOffset Sunrise { get; set; }
-    public DateTimeOffset Sunset { get; set; }
+    public int Percipitation { get; set; }
     public DateTimeOffset DateTime { get; set; }
 }
