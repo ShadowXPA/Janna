@@ -1,0 +1,8 @@
+services:
+  discord-bot:
+    image: ghcr.io/shadowxpa/janna:1.0.0
+    container_name: xpa-janna
+    environment:
+      - DISCORD_BOT_TOKEN=
+      - OPEN_WEATHER_MAP_TOKEN=
+    restart: unless-stopped
